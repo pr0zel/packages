@@ -1,0 +1,119 @@
+--- a/src/utils/dns/dns.c
++++ b/src/utils/dns/dns.c
+@@ -658,6 +658,7 @@ void handle_pcap(u_char *udata, const struct pcap_pkthdr *hdr,
+ }
+ #endif /* HAVE_PCAP_H */
+ 
++//https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-5
+ const char *qtype_str(int t) {
+   static char buf[32];
+   // clang-format off
+@@ -790,6 +791,14 @@ const char *qtype_str(int t) {
+     return "OPENPGPKEY";
+   case 62:
+     return "CSYNC";
++  case 63:
++    return "ZONEMD";
++  case 64:
++    return "SVCB";
++  case 65:
++    return "HTTPS";
++  case 66:
++    return "DSYNC";
+   case 99:
+     return "SPF";
+   case 100:
+@@ -812,6 +821,8 @@ const char *qtype_str(int t) {
+     return "EUI48";
+   case 109:
+     return "EUI64";
++  case 128:
++    return "NXNAME";
+   case 249:
+     return "TKEY";
+   case 250:
+@@ -832,18 +843,27 @@ const char *qtype_str(int t) {
+     return "CAA";
+   case 258:
+     return "AVC";
++  case 259:
++    return "DOA";
++  case 260:
++    return "AMTRELAY";
++  case 261:
++    return "RESINFO";
++  case 262:
++    return "WALLET";
+   case 32768:
+     return "TA";
+   case 32769:
+     return "DLV";
+   default:
+-    ssnprintf(buf, sizeof(buf), "#%i", t);
+-    return buf;
++    //ssnprintf(buf, sizeof(buf), "#%i", t);
++    //return buf;
++    return "Unassigned";
+   } /* switch (t) */
+ }
+ 
+ const char *opcode_str(int o) {
+-  static char buf[30];
++  //static char buf[30];
+   switch (o) {
+   case 0:
+     return "Query";
+@@ -855,9 +875,12 @@ const char *opcode_str(int o) {
+     return "Notify";
+   case 5:
+     return "Update";
++  case 6:
++    return "DSO";
+   default:
+-    ssnprintf(buf, sizeof(buf), "Opcode%d", o);
+-    return buf;
++    //ssnprintf(buf, sizeof(buf), "Opcode%d", o);
++    //return buf;
++    return "Unassigned";
+   }
+ }
+ 
+@@ -875,6 +898,8 @@ const char *rcode_str(int rcode) {
+   */
+   // clang-format on
+   switch (rcode) {
++  case 0:
++    return "NOERROR";
+   case 1:
+     return "FORMERR";
+   case 2:
+@@ -896,16 +921,27 @@ const char *rcode_str(int rcode) {
+   case 10:
+     return "NOTZONE";
+   case 11:
+-    return "MAX";
++    return "DSOTYPENI";
+   case 16:
+     return "BADSIG";
+   case 17:
+     return "BADKEY";
+   case 18:
+     return "BADTIME";
++  case 19:
++    return "BADMODE";
++  case 20:
++    return "BADNAME";
++  case 21:
++    return "BADALG";
++  case 22:
++    return "BADTRUNC";
++  case 23:
++    return "BADCOOKIE";
+   default:
+-    ssnprintf(buf, sizeof(buf), "RCode%i", rcode);
+-    return buf;
++    //ssnprintf(buf, sizeof(buf), "RCode%i", rcode);
++    //return buf;
++    return "Unassigned";
+   }
+ } /* const char *rcode_str (int rcode) */
